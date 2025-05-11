@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group = 'fragrant.main'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.seedfinding.com' }
+    maven { url 'https://repo.jellejurre.dev' }
+}
+
+dependencies {
+    implementation ('it.unimi.dsi:fastutil-core:8.5.13'){ transitive = false }
+
+    implementation('com.seedfinding:mc_math:1.171.0'){ transitive = false }
+    implementation('com.seedfinding:mc_seed:1.171.1'){ transitive = false }
+    implementation('com.seedfinding:mc_core:1.200.0'){ transitive = false }
+    implementation('com.seedfinding:mc_noise:1.171.1'){ transitive = false }
+    implementation('com.seedfinding:mc_biome:1.171.1'){ transitive = false }
+
+    implementation('com.github.KalleStruik:noise-sampler:1.20.0'){ transitive = false }
+    implementation files('libs/biomesampler-1.20.0.jar')
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
