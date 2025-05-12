@@ -1,5 +1,7 @@
 package fragrant.b2j.generator.structure;
 
+import static fragrant.b2j.util.BedrockVersion.*;
+
 public class BedrockStructureConfig {
     /* Random Spread */
     private final int salt;

@@ -1,7 +1,7 @@
 package fragrant.b2j;
 
 import fragrant.b2j.generator.loot.LootType;
-import fragrant.b2j.generator.loot.desertypramid.DesertPyramidLoot;
+import fragrant.b2j.generator.loot.desertpyramid.DesertPyramidLoot;
 import fragrant.b2j.generator.structure.BedrockStructure;
 import fragrant.b2j.generator.structure.BedrockStructureType;
 import fragrant.b2j.util.BedrockVersion;

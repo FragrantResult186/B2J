@@ -1,4 +1,4 @@
-package fragrant.b2j.generator.loot.desertypramid;
+package fragrant.b2j.generator.loot.desertpyramid;
 
 import fragrant.b2j.generator.loot.LootType;
 
