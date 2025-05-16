@@ -15,18 +15,19 @@ public class Example1 {
     static int MAX = 100;
 
     public static void main(String[] args) {
-        test(1234567890987654321L, 0, 0, 2000, BedrockVersion.MC_1_21, false);
+        test(-4996715451538318882L, -1327, -945, 0, BedrockVersion.MC_1_21, false);
+
     }
 
     private static void test(long worldSeed, int centerChunkX, int centerChunkZ, int radiusChunk, int version, boolean skipBiomeCheck) {
         System.out.println("\u001b[34m" + "MC version: " + version + "\u001b[0m");
         List<Integer> structureTypes = Arrays.asList(
-//                BedrockStructureType.ANCIENT_CITY,
+//                BedrockStructureType.ANCIENT_CITY
 //                BedrockStructureType.DESERT_PYRAMID,
 //                BedrockStructureType.IGLOO,
 //                BedrockStructureType.JUNGLE_TEMPLE,
 //                BedrockStructureType.SWAMP_HUT,
-//                BedrockStructureType.WOODLAND_MANSION,
+                BedrockStructureType.WOODLAND_MANSION
 //                BedrockStructureType.OCEAN_MONUMENT,
 //                BedrockStructureType.OCEAN_RUINS,
 //                BedrockStructureType.PILLAGER_OUTPOST,
@@ -41,11 +42,11 @@ public class Example1 {
 //                BedrockStructureType.BURIED_TREASURE,
 //                BedrockStructureType.BASTION_REMNANT,
 //                BedrockStructureType.NETHER_FORTRESS,
-//                BedrockStructureType.RUINED_PORTAL_O,
-//                BedrockStructureType.RUINED_PORTAL_N,
+//                BedrockStructureType.RUINED_PORTAL_O
+//                BedrockStructureType.RUINED_PORTAL_N
 //                BedrockStructureType.END_CITY,
 //                BedrockStructureType.RAVINE,
-                BedrockStructureType.STRONGHOLD
+//                BedrockStructureType.STRONGHOLD
         );
 
         try {

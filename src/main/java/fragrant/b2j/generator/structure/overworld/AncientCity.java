@@ -2,6 +2,7 @@ package fragrant.b2j.generator.structure.overworld;
 
 import fragrant.b2j.generator.structure.BedrockStructureConfig;
 import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.random.BedrockRandom;
 import fragrant.b2j.util.Position;
 
 public class AncientCity extends StructureGenerator {
@@ -9,19 +10,35 @@ public class AncientCity extends StructureGenerator {
     public static Position.Pos getAncientCity(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
         Feature city = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
         Position.Pos pos = getFeaturePos(config, regX, regZ, city.position());
-        /* 0: -x, 1: -z, 2: +x, 3: +z */
-        int rotation = city.mt().nextInt(4);
-        pos.setMeta("rot", rotation);
+        BedrockRandom mt = city.mt();
+        /* 0: West, 1: North, 2: East, 3: South */
+        int rotation = mt.nextInt(4);
+        /* city_center_1..3 */
+        int center = mt.nextInt(3);
+
+        String facing = switch (rotation) {
+            case 0 -> "west";
+            case 1 -> "north";
+            case 2 -> "east";
+            case 3 -> "south";
+            default -> "unknown";
+        };
+
+        pos.setMeta("center", center);
+        pos.setMeta("facing", facing);
+
         return pos;
     }
 
     public static String format(Position.Pos pos) {
-        Integer rot = pos.getMeta("rot", Integer.class);
+        Integer center = pos.getMeta("center", Integer.class);
+        String facing = pos.getMeta("facing", String.class);
 
-        return String.format("[X=%d, Y=-33, Z=%d] rot=%d",
+        return String.format("[X=%d, Y=-33, Z=%d] (city_center_%d, facing=%s)",
                 pos.getX(),
                 pos.getZ(),
-                rot
+                center + 1,
+                facing
         );
     }
 

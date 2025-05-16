@@ -13,7 +13,7 @@ public class Village extends StructureGenerator {
         Position.Pos blockPos = getFeaturePos(config, regX, regZ, village.position());
 
         BedrockRandom mt = village.mt();
-        mt.nextInt(); // Skip
+        mt.nextInt(4); // Skip
         /* isZombie (2% chance in 1.18+, 20% chance in 1.18-) */
         double chance = BedrockVersion.isAtLeast(version, BedrockVersion.MC_1_18) ? 0.02f : 0.2f;
         if (mt.nextDouble() < chance) {

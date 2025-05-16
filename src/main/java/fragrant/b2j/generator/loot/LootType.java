@@ -7,7 +7,15 @@ public class LootType {
 
     public record LootEntry(String name, int weight, String type, List<LootFunction> functions) { }
 
-    public record LootFunction(String function, CountRange count) { }
+    public record LootFunction(String function, CountRange count, String potionType) {
+        public LootFunction(String function, CountRange count) {
+            this(function, count, null);
+        }
+
+        public LootFunction(String function, String potionType) {
+            this(function, null, potionType);
+        }
+    }
 
     public record CountRange(int min, int max) { }
 

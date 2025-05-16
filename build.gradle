@@ -14,12 +14,17 @@ repositories {
 
 dependencies {
     implementation ('it.unimi.dsi:fastutil-core:8.5.13'){ transitive = false }
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // FlatLaf for modern UI
+    implementation 'com.formdev:flatlaf:3.1.1'
 
     implementation('com.seedfinding:mc_math:1.171.0'){ transitive = false }
     implementation('com.seedfinding:mc_seed:1.171.1'){ transitive = false }
     implementation('com.seedfinding:mc_core:1.200.0'){ transitive = false }
     implementation('com.seedfinding:mc_noise:1.171.1'){ transitive = false }
     implementation('com.seedfinding:mc_biome:1.171.1'){ transitive = false }
+    implementation('com.seedfinding:mc_feature:1.171.1'){ transitive = false }
 
     implementation('com.github.KalleStruik:noise-sampler:1.20.0'){ transitive = false }
     implementation files('libs/biomesampler-1.20.0.jar')

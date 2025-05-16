@@ -35,9 +35,6 @@ public class BedrockStructure {
             case BedrockStructureType.RUINED_PORTAL_O
                     -> OverworldRuinedPortal.getOverworldRuinedPortal(config, worldSeed, regX, regZ);
 
-            case BedrockStructureType.RUINED_PORTAL_N
-                    -> NetherRuinedPortal.getNetherRuinedPortal(config, worldSeed, regX, regZ);
-
             case BedrockStructureType.WOODLAND_MANSION
                     -> WoodlandMansion.getWoodlandMansion(config, worldSeed, regX, regZ);
 
@@ -92,6 +89,9 @@ public class BedrockStructure {
 
             case BedrockStructureType.NETHER_FORTRESS
                     -> Fortress.getFortress(config, worldSeed, regX, regZ, version);
+
+            case BedrockStructureType.RUINED_PORTAL_N
+                    -> NetherRuinedPortal.getNetherRuinedPortal(config, worldSeed, regX, regZ);
 
             /* End */
             case BedrockStructureType.END_CITY
