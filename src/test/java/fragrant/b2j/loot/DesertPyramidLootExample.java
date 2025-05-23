@@ -1,10 +1,6 @@
 package fragrant.b2j.loot;
 
-import fragrant.b2j.generator.loot.BedrockLootSeedGenerators;
-import fragrant.b2j.generator.loot.BedrockLootTable;
-import fragrant.b2j.generator.loot.Loot;
-import fragrant.b2j.generator.loot.LootType;
-
+import fragrant.b2j.structure.overworld.DesertPyramid;
 import java.util.List;
 import java.util.Map;
 
@@ -16,27 +12,18 @@ public class DesertPyramidLootExample {
         int chunkZ = -115;
 
         Loot desertPyramid = new Loot(
-                new BedrockLootTable.DesertPyramid(),
-                new BedrockLootSeedGenerators.DesertPyramid()
+                new DesertPyramid.LootTable(),
+                new DesertPyramid.LootSeedGenerator()
         );
 
         Map<Integer, List<LootType.LootItem>> desertPyramidLoot =
                 desertPyramid.getLoot(worldSeed, chunkX, chunkZ);
 
         desertPyramidLoot.forEach((chestIndex, items) -> {
-            System.out.println("Chest " + chestIndex + " (Direction: " + getDirectionName(chestIndex) + "):");
+            System.out.println("Chest " + chestIndex + " (Direction: " +
+                    DesertPyramid.getDirectionName(chestIndex) + "):");
             items.forEach(item -> System.out.println("  " + item));
         });
-    }
-
-    private static String getDirectionName(int index) {
-        return switch (index) {
-            case 0 -> "North";
-            case 1 -> "West";
-            case 2 -> "South";
-            case 3 -> "East";
-            default -> "Unknown";
-        };
     }
 
 }

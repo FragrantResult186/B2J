@@ -1,10 +1,6 @@
 package fragrant.b2j.loot;
 
-import fragrant.b2j.generator.loot.BedrockLootSeedGenerators;
-import fragrant.b2j.generator.loot.BedrockLootTable;
-import fragrant.b2j.generator.loot.Loot;
-import fragrant.b2j.generator.loot.LootType;
-
+import fragrant.b2j.structure.overworld.BuriedTreasure;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +12,8 @@ public class BuriedTreasureLootExample {
         int chunkZ = 0;
 
         Loot buriedTreasure = new Loot(
-                new BedrockLootTable.BuriedTreasure(),
-                new BedrockLootSeedGenerators.BuriedTreasure()
+                new BuriedTreasure.LootTable(),
+                new BuriedTreasure.LootSeedGenerator()
         );
 
         Map<Integer, List<LootType.LootItem>> buriedTreasureLoot =
