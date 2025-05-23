@@ -1,6 +1,6 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.StructurePos;
@@ -8,23 +8,24 @@ import fragrant.b2j.util.position.StructurePos;
 public class AmethystGeode extends StructureGenerator {
 
     public static StructurePos getGeode(long worldSeed, int chunkX, int chunkZ, int version) {
-        int featureHash = hashFeatureName("minecraft:overworld_amethyst_geode_feature");
-        long popSeed = getBedrockPopulationSeed(worldSeed, chunkX, chunkZ);
-        long featureSeed = mixHash((int) popSeed, featureHash);
+        long featureSeed = getFeatureSeed(worldSeed, chunkX, chunkZ, "minecraft:overworld_amethyst_geode_feature");
         BedrockRandom mt = new BedrockRandom(featureSeed);
 
         int spawnChance;
         int[] yRange;
-        if (version >= BedrockVersion.MC_1_18) {
+        if (version >= BedrockVersion.MC_1_18)
+        {
             spawnChance = 24;
             yRange = new int[]{-58, 30};
-        } else {
+        } else
+        {
             spawnChance = 53;
             yRange = new int[]{6, 47};
         }
 
         /* 1/24 in 1.18+, 1/53 in 1.17 */
-        if (mt.nextInt(spawnChance) == 0) {
+        if (mt.nextInt(spawnChance) == 0)
+        {
             int y = mt.nextInt(yRange[0], yRange[1]);
             return new StructurePos(chunkX << 4, y, chunkZ << 4);
         }

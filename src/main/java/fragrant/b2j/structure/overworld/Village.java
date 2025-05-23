@@ -1,7 +1,7 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.StructurePos;
@@ -9,14 +9,16 @@ import fragrant.b2j.util.position.StructurePos;
 public class Village extends StructureGenerator {
 
     public static StructurePos getVillage(BedrockStructureConfig config, long worldSeed, int regX, int regZ, int version) {
-        Feature village = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        StructurePos blockPos = getFeaturePos(config, regX, regZ, village.position());
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos village = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos blockPos = getFeaturePos(config, regX, regZ, village);
 
-        BedrockRandom mt = village.mt();
         mt.nextInt(4); // Skip
+
         /* isZombie (2% chance in 1.18+, 20% chance in 1.18-) */
         double chance = BedrockVersion.isAtLeast(version, BedrockVersion.MC_1_18) ? 0.02f : 0.2f;
-        if (mt.nextDouble() < chance) {
+        if (mt.nextDouble() < chance)
+        {
             blockPos.setType("zombie");
         }
 

@@ -1,26 +1,20 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.position.StructurePos;
 
 public class OverworldFossil extends StructureGenerator {
 
     public static StructurePos getOverworldFossil(long worldSeed, int chunkX, int chunkZ) {
-        int hash_coal = hashFeatureName("minecraft:desert_or_swamp_after_surface_fossil_feature");
-        int hash_diamond = hashFeatureName("minecraft:desert_or_swamp_after_surface_fossil_deepslate_feature");
-
-        long popSeed_coal = getBedrockPopulationSeed(worldSeed, chunkX, chunkZ);
-        long popSeed_diamond = getBedrockPopulationSeed(worldSeed, chunkX, chunkZ);
-
-        long seed_coal = mixHash((int) popSeed_coal, hash_coal);
-        long seed_diamond = mixHash((int) popSeed_diamond, hash_diamond);
-
+        long seed_coal = getFeatureSeed(worldSeed, chunkX, chunkZ, "minecraft:desert_or_swamp_after_surface_fossil_feature");
+        long seed_diamond = getFeatureSeed(worldSeed, chunkX, chunkZ, "minecraft:desert_or_swamp_after_surface_fossil_deepslate_feature");
         BedrockRandom mt_coal = new BedrockRandom(seed_coal);
         BedrockRandom mt_diamond = new BedrockRandom(seed_diamond);
 
         /* Coal 1/64 chance */
-        if (mt_coal.nextInt(64) == 0) {
+        if (mt_coal.nextInt(64) == 0)
+        {
             String type = switch (mt_coal.nextInt(4)) {
                 case 0 -> "(coal, skull_1 or spine_1)";
                 case 1 -> "(coal, skull_2 or spine_2)";
@@ -33,7 +27,8 @@ public class OverworldFossil extends StructureGenerator {
             return pos;
         }
         /* Diamond 1/64 chance */
-        if (mt_diamond.nextInt(64) == 0) {
+        if (mt_diamond.nextInt(64) == 0)
+        {
             String type = switch (mt_diamond.nextInt(4)) {
                 case 0 -> "(diamond, skull_1 or spine_1)";
                 case 1 -> "(diamond, skull_2 or spine_2)";
@@ -45,7 +40,6 @@ public class OverworldFossil extends StructureGenerator {
             pos.setType(type);
             return pos;
         }
-
         return null;
     }
 

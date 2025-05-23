@@ -1,16 +1,16 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.position.StructurePos;
 
 public class WoodlandMansion extends StructureGenerator {
 
     public static StructurePos getWoodlandMansion(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
-        Feature mansion = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        StructurePos pos = getFeaturePos(config, regX, regZ, mansion.position());
-        BedrockRandom mt = mansion.mt();
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos chunkPos = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos pos = getFeaturePos(config, regX, regZ, chunkPos);
 
         /* 0: West, 1: North, 2: East, 3: South */
         int rotation = mt.nextInt(4);

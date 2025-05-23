@@ -1,6 +1,6 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.StructurePos;
@@ -12,13 +12,16 @@ public class Ravine extends StructureGenerator {
         BedrockRandom mt = new BedrockRandom(popSeed);
 
         /* 1.21.60+ 1/100 chance, older versions 1/150 chance */
-        if (mt.nextInt(version >= BedrockVersion.MC_1_21_6 ? 100 : 150) == 0) {
+        if (mt.nextInt(version >= BedrockVersion.MC_1_21_6 ? 100 : 150) == 0)
+        {
             int x = 16 * chunkX + mt.nextInt(16);
             int y;
-            if (version >= BedrockVersion.MC_1_21_6) {
+            if (version >= BedrockVersion.MC_1_21_6)
+            {
                 y = mt.nextInt(58) + 10;
                 mt.nextInt(); // Skip
-            } else {
+            } else
+            {
                 int r = mt.nextInt(40);
                 y = mt.nextInt(r + 8) + 20;
             }
@@ -34,7 +37,8 @@ public class Ravine extends StructureGenerator {
             float thick = (mt.nextFloat() + mt.nextFloat()) * 3;
             float width = thick;
             boolean isGiant = false;
-            if (mt.nextFloat() < 0.05f) {
+            if (mt.nextFloat() < 0.05f)
+            {
                 width = thick * 2;
                 isGiant = true;
             }
@@ -45,6 +49,7 @@ public class Ravine extends StructureGenerator {
 
     public static String format(StructurePos pos) {
         String typeLabel = pos.isGiant() ? "size=%.2f giant" : "size=%.2f";
+
         return String.format("[X=%d, Y=%d, Z=%d] (%s)",
                 pos.getX(),
                 pos.getY(),

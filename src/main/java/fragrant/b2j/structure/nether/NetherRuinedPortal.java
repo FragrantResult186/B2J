@@ -1,16 +1,16 @@
-package fragrant.b2j.structure.overworld;
+package fragrant.b2j.structure.nether;
 
 import fragrant.b2j.structure.BedrockStructureConfig;
 import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.position.StructurePos;
 import fragrant.b2j.util.random.BedrockRandom;
 
-public class JungleTemple extends StructureGenerator {
+public class NetherRuinedPortal extends StructureGenerator {
 
-    public static StructurePos getJungleTemple(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
+    public static StructurePos getNetherRuinedPortal(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
         BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
-        StructurePos temple = getFeatureChunkInRegion(config, mt, regX, regZ);
-        StructurePos pos = getFeaturePos(config, regX, regZ, temple);
+        StructurePos portal = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos pos = getFeaturePos(config, regX, regZ, portal);
 
         return pos;
     }

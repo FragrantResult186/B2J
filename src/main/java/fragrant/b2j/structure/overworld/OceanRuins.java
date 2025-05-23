@@ -1,9 +1,9 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.BedrockStructureType;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.BedrockStructureType;
 import fragrant.b2j.biome.BiomeCache;
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.position.StructurePos;
 import nl.jellejurre.biomesampler.minecraft.Biome;
@@ -15,36 +15,46 @@ import java.util.Map;
 public class OceanRuins extends StructureGenerator {
 
     public static StructurePos getOceanRuins(BedrockStructureConfig config, long worldSeed, int regX, int regZ, int version, boolean skipBiomeCheck) {
-        Feature ruins = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        StructurePos blockPos = getFeaturePos(config, regX, regZ, ruins.position());
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos ruins = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos blockPos = getFeaturePos(config, regX, regZ, ruins);
 
         /* Cold or Warm */
         Ruin ruinConfig = new Ruin("null", 0, 0);
-        if (!skipBiomeCheck) {
+        if (!skipBiomeCheck)
+        {
             BiomeCache biomeCache = new BiomeCache(worldSeed);
             Biome biome = biomeCache.getBiomeAt(blockPos.getX(), 60, blockPos.getZ(), Dimension.OVERWORLD);
-            if (BIOME_CONFIG.containsKey(biome)) {
+            if (BIOME_CONFIG.containsKey(biome))
+            {
                 ruinConfig = BIOME_CONFIG.get(biome);
             }
         }
 
         /* Region Random (ocean monument) */
         BedrockStructureConfig monumentConfig = BedrockStructureConfig.getForType(BedrockStructureType.OCEAN_MONUMENT, version);
-        int newRegX = Math.floorDiv(ruins.position().getX(), monumentConfig.getSpacing());
-        int newRegZ = Math.floorDiv(ruins.position().getZ(), monumentConfig.getSpacing());
-        BedrockRandom mt = StructureGenerator.setRegionSeed(monumentConfig, worldSeed, newRegX, newRegZ);
+        int newRegX = Math.floorDiv(ruins.getX(), monumentConfig.getSpacing());
+        int newRegZ = Math.floorDiv(ruins.getZ(), monumentConfig.getSpacing());
+
+        mt = StructureGenerator.setRegionSeed(monumentConfig, worldSeed, newRegX, newRegZ);
+
         mt.skipNextInt(4); // Skip Triangular distribution rng
-        mt.nextInt(); // Skip
+        mt.nextInt(4); // Skip
 
         /* isLarge */
-        if (mt.nextFloat() < ruinConfig.largeProb()) {
+        if (mt.nextFloat() < ruinConfig.largeProb())
+        {
             blockPos.setMeta("isLarge", true);
+
             mt.nextInt(); // Skip
+
             /* isCluster */
-            if (mt.nextFloat() <= ruinConfig.clusterProb()) {
+            if (mt.nextFloat() <= ruinConfig.clusterProb())
+            {
                 mt.skipNextInt(16); // Skip *16
-                int clusterSize = 4 + mt.nextInt(5); // 4 ~ 8
-                blockPos.setMeta("clusterSize", clusterSize);
+
+                int size = 4 + mt.nextInt(5); // 4 ~ 8
+                blockPos.setMeta("clusterSize", size);
             }
         }
         blockPos.setMeta("ruinType", ruinConfig.type());
@@ -73,18 +83,17 @@ public class OceanRuins extends StructureGenerator {
 
     public static String format(StructurePos pos) {
         Boolean isLarge = pos.getMeta("isLarge", Boolean.class);
-        String sizeLabel = isLarge != null && isLarge ? "large" : "small";
+        String size = isLarge != null && isLarge ? "large" : "small";
         Integer clusterSize = pos.getMeta("clusterSize", Integer.class);
-        String clusterInfo = clusterSize != null && clusterSize > 0 ? ", cluster*" + clusterSize : "";
-        String ruinType = pos.getMeta("ruinType", String.class);
+        String clusterCnt = clusterSize != null && clusterSize > 0 ? ", cluster*" + clusterSize : "";
+        String type = pos.getMeta("ruinType", String.class);
 
-        return String.format(
-                "[X=%d, Z=%d] (%s, %s%s)",
+        return String.format("[X=%d, Z=%d] (%s, %s%s)",
                 pos.getX() + 8,
                 pos.getZ() + 8,
-                sizeLabel,
-                ruinType,
-                clusterInfo
+                size,
+                type,
+                clusterCnt
         );
     }
 

@@ -1,6 +1,6 @@
 package fragrant.b2j.biome;
 
-import fragrant.b2j.generator.structure.BedrockStructureType;
+import fragrant.b2j.structure.BedrockStructureType;
 import nl.jellejurre.biomesampler.minecraft.Biome;
 import nl.kallestruik.noisesampler.minecraft.Dimension;
 

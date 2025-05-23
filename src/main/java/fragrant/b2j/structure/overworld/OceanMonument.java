@@ -1,14 +1,18 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.position.StructurePos;
+import fragrant.b2j.util.random.BedrockRandom;
 
 public class OceanMonument extends StructureGenerator {
 
     public static StructurePos getOceanMonument(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
-        Feature monument = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        return getFeaturePos(config, regX, regZ, monument.position());
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos monument = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos pos = getFeaturePos(config, regX, regZ, monument);
+
+        return pos;
     }
 
     public static String format(StructurePos pos) {

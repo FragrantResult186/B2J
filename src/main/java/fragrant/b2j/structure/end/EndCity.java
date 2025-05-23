@@ -1,42 +1,42 @@
-package fragrant.b2j.generator.structure.end;
+package fragrant.b2j.structure.end;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.StructureGenerator;
-import fragrant.b2j.util.random.BedrockRandom;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.position.StructurePos;
+import fragrant.b2j.util.random.BedrockRandom;
 
 public class EndCity extends StructureGenerator {
 
     public static StructurePos getEndCity(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
-        Feature endCity = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        StructurePos pos = getFeaturePos(config, regX, regZ, endCity.position());
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos chunkPos = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos pos = getFeaturePos(config, regX, regZ, chunkPos);
 
         /* No spawns within 63*63 chunks (1008 blocks) */
         if (Math.hypot(pos.getX(), pos.getZ()) >= 1008) {
-
-            /* hasShip */
-            EndShip ship = new EndShip();
-//            System.out.println("add BASE_FLOOR");
-//            System.out.println("add SECOND_FLOOR_1");
-//            System.out.println("add THIRD_FLOOR_1");
-//            System.out.println("add THIRD_ROOF");
-            generatePieces("TOWER_GENERATOR", 1, endCity.mt(), ship);
-
+            EndShip ship = generate(mt);
             pos.setMeta("hasShip", ship.hasShip);
-
             return pos;
         }
         return null;
     }
 
-    private static class EndShip {
-        boolean hasShip = false;
+    public static class EndShip {
+        public boolean hasShip = false;
     }
 
-    private static boolean generatePieces(String tower, int depth, BedrockRandom mt, EndShip ship) {
-        if (depth > 8 || ship.hasShip) {
-            return false;
-        }
+    protected static EndShip generate(BedrockRandom mt) {
+        EndShip ship = new EndShip();
+//            System.out.println("add BASE_FLOOR");
+//            System.out.println("add SECOND_FLOOR_1");
+//            System.out.println("add THIRD_FLOOR_1");
+//            System.out.println("add THIRD_ROOF");
+        generatePieces("TOWER_GENERATOR", 1, mt, ship);
+        return ship;
+    }
+
+    protected static boolean generatePieces(String tower, int depth, BedrockRandom mt, EndShip ship) {
+        if (depth > 8 || ship.hasShip) return false;
 
         boolean type = switch (tower) {
             case "TOWER_GENERATOR"        -> TOWER_GENERATOR(depth, mt, ship);
@@ -46,11 +46,9 @@ public class EndCity extends StructureGenerator {
             default -> false;
         };
 
-        if (!type) {
-            return false;
-        }
+        if (!type) return false;
 
-        mt.nextInt();
+        mt.nextInt(); // Skip
         return true;
     }
 
@@ -63,18 +61,21 @@ public class EndCity extends StructureGenerator {
         int size = mt.nextInt(3) + 1;
         for (int floor = 0; floor < size - 1; floor++) {
 //            System.out.println("add TOWER_PIECE");
-            if (mt.nextBoolean()) {
+            if (mt.nextBoolean())
+            {
                 currentFloor = true;
             }
         }
 
-        if (currentFloor) {
+        if (currentFloor)
+        {
             for (int i = 0; i < 4; i++) {
                 if (!mt.nextBoolean()) continue;
 //                System.out.println("add BRIDGE_END");
                 generatePieces("TOWER_BRIDGE_GENERATOR", depth + 1, mt, shipData);
             }
-        } else if (depth != 7) {
+        } else if (depth != 7)
+        {
             return generatePieces("FAT_TOWER_GENERATOR", depth + 1, mt, shipData);
         }
 //        System.out.println("add TOWER_TOP");
@@ -85,22 +86,25 @@ public class EndCity extends StructureGenerator {
         int size = mt.nextInt(4) + 1;
 //        System.out.println("add BRIDGE_PIECE");
         for (int floor = 0; floor < size; floor++) {
-            if (mt.nextBoolean()) {
+            if (mt.nextBoolean())
+            {
 //                System.out.println("add BRIDGE_PIECE");
                 continue;
             }
-            if (mt.nextBoolean()) {
+            if (mt.nextBoolean())
+            {
 //                System.out.println("add BRIDGE_STEEP_STAIRS");
-            } else {
+            } else
+            {
 //                System.out.println("add BRIDGE_GENTLE_STAIRS");
             }
         }
 //        System.out.println("add BRIDGE_END");
-
-        if (ship.hasShip || 0 != mt.nextInt(10 - depth)) {
-            if (!generatePieces("HOUSE_TOWER_GENERATOR", depth + 1, mt, ship))
-                return false;
-        } else {
+        if (ship.hasShip || 0 != mt.nextInt(10 - depth))
+        {
+            return generatePieces("HOUSE_TOWER_GENERATOR", depth + 1, mt, ship);
+        } else
+        {
             int x = -8 + mt.nextInt(8);
             int z = -70 + mt.nextInt(10);
 //            System.out.println("add END_SHIP");
@@ -114,15 +118,18 @@ public class EndCity extends StructureGenerator {
 
 //        System.out.println("add BASE_FLOOR");
         int size = mt.nextInt(3);
-        if (size == 0) {
+        if (size == 0)
+        {
 //            System.out.println("add BASE_ROOF");
             return true;
         }
-        if (size == 1) {
+        if (size == 1)
+        {
 //            System.out.println("add SECOND_FLOOR_2");
 //            System.out.println("add SECOND_ROOF");
         }
-        else {
+        else
+        {
 //            System.out.println("add SECOND_FLOOR_2");
 //            System.out.println("add THIRD_FLOOR_2");
 //            System.out.println("add THIRD_ROOF");
@@ -148,7 +155,6 @@ public class EndCity extends StructureGenerator {
 
     public static String format(StructurePos pos) {
         String ship = Boolean.TRUE.equals(pos.getMeta("hasShip", Boolean.class)) ? "(with ship)" : "";
-
         return String.format("[X=%d, Z=%d] %s",
                 pos.getX() + 8,
                 pos.getZ() + 8,

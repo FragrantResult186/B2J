@@ -1,4 +1,6 @@
-package fragrant.b2j.random;
+package fragrant.b2j.util.random;
+
+import fragrant.b2j.util.Vec3d;
 
 import java.util.Random;
 

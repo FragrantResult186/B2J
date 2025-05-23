@@ -1,14 +1,18 @@
-package fragrant.b2j.generator.structure.overworld;
+package fragrant.b2j.structure.overworld;
 
-import fragrant.b2j.generator.structure.BedrockStructureConfig;
-import fragrant.b2j.generator.structure.StructureGenerator;
+import fragrant.b2j.structure.BedrockStructureConfig;
+import fragrant.b2j.structure.StructureGenerator;
 import fragrant.b2j.util.position.StructurePos;
+import fragrant.b2j.util.random.BedrockRandom;
 
 public class SwampHut extends StructureGenerator {
 
     public static StructurePos getSwampHut(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
-        Feature swampHut = getFeatureChunkInRegion(config, worldSeed, regX, regZ);
-        return getFeaturePos(config, regX, regZ, swampHut.position());
+        BedrockRandom mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
+        StructurePos swampHut = getFeatureChunkInRegion(config, mt, regX, regZ);
+        StructurePos pos = getFeaturePos(config, regX, regZ, swampHut);
+
+        return pos;
     }
 
     public static String format(StructurePos pos) {
@@ -17,4 +21,5 @@ public class SwampHut extends StructureGenerator {
                 pos.getZ() + 8
         );
     }
+
 }

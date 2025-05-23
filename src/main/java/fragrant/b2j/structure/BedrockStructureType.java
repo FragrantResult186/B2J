@@ -1,4 +1,4 @@
-package fragrant.b2j.generator.structure;
+package fragrant.b2j.structure;
 
 public class BedrockStructureType {
     /* Overworld */
@@ -21,43 +21,45 @@ public class BedrockStructureType {
     public static final int VILLAGE = 17;
     public static final int BURIED_TREASURE = 18;
     public static final int RUINED_PORTAL_O = 19;
-    public static final int STRONGHOLD = 20;
-    public static final int RAVINE = 21;
+    public static final int VILLAGE_STRONGHOLD = 20;
+    public static final int STATIC_STRONGHOLD = 21;
+    public static final int RAVINE = 22;
     /* Nether */
-    public static final int BASTION_REMNANT = 22;
-    public static final int NETHER_FORTRESS = 23;
-    public static final int RUINED_PORTAL_N = 24;
+    public static final int BASTION_REMNANT = 23;
+    public static final int NETHER_FORTRESS = 24;
+    public static final int RUINED_PORTAL_N = 25;
     /* End */
     public static final int END_CITY = 26;
 
     public static String toString(int type) {
         return switch (type) {
-            case ANCIENT_CITY     -> "Ancient City";
-            case DESERT_PYRAMID   -> "Desert Pyramid";
-            case IGLOO            -> "Igloo";
-            case JUNGLE_TEMPLE    -> "Jungle Temple";
-            case SWAMP_HUT        -> "Swamp Hut";
-            case WOODLAND_MANSION -> "Woodland Mansion";
-            case OCEAN_MONUMENT   -> "Ocean Monument";
-            case OCEAN_RUINS      -> "Ocean Ruins";
-            case PILLAGER_OUTPOST -> "Pillager Outpost";
-            case SHIPWRECK        -> "Shipwreck";
-            case MINESHAFT        -> "Mineshaft";
-            case AMETHYST_GEODE   -> "Amethyst Geode";
-            case DESERT_WELL      -> "Desert Well";
-            case FOSSIL_O         -> "Overworld Fossil";
-            case TRAIL_RUINS      -> "Trail Ruins";
-            case TRIAL_CHAMBERS   -> "Trial Chambers";
-            case VILLAGE          -> "Village";
-            case BURIED_TREASURE  -> "Buried Treasure";
-            case RUINED_PORTAL_O  -> "Overworld Ruined Portal";
-            case STRONGHOLD       -> "Stronghold";
-            case RAVINE           -> "Ravine";
-            case BASTION_REMNANT  -> "Bastion Remnant";
-            case NETHER_FORTRESS  -> "Nether Fortress";
-            case RUINED_PORTAL_N  -> "Nether Ruined Portal";
-            case END_CITY         -> "End City";
-            default -> "Unknown Structure (" + type + ")";
+            case ANCIENT_CITY       -> "Ancient City";
+            case DESERT_PYRAMID     -> "Desert Pyramid";
+            case IGLOO              -> "Igloo";
+            case JUNGLE_TEMPLE      -> "Jungle Temple";
+            case SWAMP_HUT          -> "Swamp Hut";
+            case WOODLAND_MANSION   -> "Woodland Mansion";
+            case OCEAN_MONUMENT     -> "Ocean Monument";
+            case OCEAN_RUINS        -> "Ocean Ruins";
+            case PILLAGER_OUTPOST   -> "Pillager Outpost";
+            case SHIPWRECK          -> "Shipwreck";
+            case MINESHAFT          -> "Mineshaft";
+            case AMETHYST_GEODE     -> "Amethyst Geode";
+            case DESERT_WELL        -> "Desert Well";
+            case FOSSIL_O           -> "Overworld Fossil";
+            case TRAIL_RUINS        -> "Trail Ruins";
+            case TRIAL_CHAMBERS     -> "Trial Chambers";
+            case VILLAGE            -> "Village";
+            case BURIED_TREASURE    -> "Buried Treasure";
+            case RUINED_PORTAL_O    -> "Overworld Ruined Portal";
+            case VILLAGE_STRONGHOLD -> "Village Stronghold";
+            case STATIC_STRONGHOLD  -> "Static Stronghold";
+            case RAVINE             -> "Ravine";
+            case BASTION_REMNANT    -> "Bastion Remnant";
+            case NETHER_FORTRESS    -> "Nether Fortress";
+            case RUINED_PORTAL_N    -> "Nether Ruined Portal";
+            case END_CITY           -> "End City";
+            default -> "Unknown Structure:" + type;
         };
     }
 

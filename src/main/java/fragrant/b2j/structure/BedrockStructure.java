@@ -1,14 +1,13 @@
-package fragrant.b2j.generator.structure;
+package fragrant.b2j.structure;
 
 import fragrant.b2j.biome.BiomeCache;
 import fragrant.b2j.biome.BiomeVerifier;
-import fragrant.b2j.generator.structure.end.EndCity;
-import fragrant.b2j.generator.structure.nether.Bastion;
-import fragrant.b2j.generator.structure.nether.Fortress;
-import fragrant.b2j.generator.structure.nether.NetherRuinedPortal;
-import fragrant.b2j.generator.structure.overworld.*;
+import fragrant.b2j.structure.end.EndCity;
+import fragrant.b2j.structure.nether.Bastion;
+import fragrant.b2j.structure.nether.Fortress;
+import fragrant.b2j.structure.nether.NetherRuinedPortal;
+import fragrant.b2j.structure.overworld.*;
 import fragrant.b2j.util.position.BlockPos;
-import fragrant.b2j.util.position.ChunkPos;
 import fragrant.b2j.util.position.StructurePos;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class BedrockStructure {
 
     public static StructurePos getBedrockStructurePos(int structureType, int version, long worldSeed, int regX, int regZ, boolean skipBiomeCheck) {
         BedrockStructureConfig config = BedrockStructureConfig.getForType(structureType, version);
-        if (config == null) { return null; }
+        if (config == null) return null;
 
         return switch (structureType) {
             /* Overworld */
@@ -82,8 +81,8 @@ public class BedrockStructure {
             case BedrockStructureType.RAVINE
                     -> Ravine.getRavine(worldSeed, regX, regZ, version);
 
-            case BedrockStructureType.STRONGHOLD
-                    -> Stronghold.getStaticStronghold(config, worldSeed, regX, regZ);
+            case BedrockStructureType.STATIC_STRONGHOLD
+                    -> Stronghold.getStaticStronghold(worldSeed, regX, regZ);
 
             /* Nether */
             case BedrockStructureType.BASTION_REMNANT
@@ -108,7 +107,20 @@ public class BedrockStructure {
 
     public static StructurePos isBedrockStructureChunk(int structureType, int version, long worldSeed, int chunkX, int chunkZ) {
         BedrockStructureConfig config = BedrockStructureConfig.getForType(structureType, version);
-        if (config == null) {
+        if (config == null) return null;
+
+        if (structureType == BedrockStructureType.VILLAGE_STRONGHOLD) {
+            BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version);
+            for (BlockPos stronghold : strongholds) {
+                int strongholdChunkX = stronghold.getX() >> 4;
+                int strongholdChunkZ = stronghold.getZ() >> 4;
+
+                if (strongholdChunkX == chunkX && strongholdChunkZ == chunkZ) {
+                    StructurePos structurePos = new StructurePos(stronghold.getX(), stronghold.getZ());
+                    structurePos.setStructureType(structureType);
+                    return structurePos;
+                }
+            }
             return null;
         }
 
@@ -140,21 +152,19 @@ public class BedrockStructure {
         int radiusBlock = radiusChunk << 4;
         int radiusBlockSquared = radiusBlock * radiusBlock;
 
-        if (structureTypes.contains(BedrockStructureType.STRONGHOLD) && !skipBiomeCheck) {
-            for (BlockPos blockPos : Stronghold.getVillageStronghold(worldSeed, version)) {
-                int x = blockPos.getX();
-                int z = blockPos.getZ();
-
-                if (isWithinRadius(x, z, centerX, centerZ, radiusBlockSquared) && BiomeVerifier.isViableStructurePos(BedrockStructureType.STRONGHOLD, x, z, biomeCache)) {
-                    StructurePos pos = new StructurePos(x, z, "village_stronghold");
-                    pos.setStructureType(BedrockStructureType.STRONGHOLD);
-                    allStructures.add(pos);
-                }
-            }
-        }
-
         for (int structureType : structureTypes) {
-            if (structureType == BedrockStructureType.STRONGHOLD && !skipBiomeCheck) {
+            if (structureType == BedrockStructureType.VILLAGE_STRONGHOLD) {
+                BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version);
+                for (BlockPos pos : strongholds) {
+                    int x = pos.getX();
+                    int z = pos.getZ();
+
+                    if (isWithinRadius(x, z, centerX, centerZ, radiusBlockSquared)) {
+                        StructurePos structurePos = new StructurePos(x, z);
+                        structurePos.setStructureType(structureType);
+                        allStructures.add(structurePos);
+                    }
+                }
                 continue;
             }
 
@@ -174,7 +184,9 @@ public class BedrockStructure {
                     int x = pos.getX();
                     int z = pos.getZ();
 
-                    if (isWithinRadius(x, z, centerX, centerZ, radiusBlockSquared) && (skipBiomeCheck || BiomeVerifier.isViableStructurePos(structureType, x, z, biomeCache))) {
+                    if (isWithinRadius(x, z, centerX, centerZ, radiusBlockSquared) &&
+                            (skipBiomeCheck || BiomeVerifier.isViableStructurePos(structureType, x, z, biomeCache)))
+                    {
                         pos.setStructureType(structureType);
                         allStructures.add(pos);
                     }

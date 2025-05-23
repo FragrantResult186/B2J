@@ -1,38 +1,29 @@
-package fragrant.b2j.structure.generator;
+package fragrant.b2j.structure;
 
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
-import fragrant.b2j.structure.BedrockStructureConfig;
 import fragrant.b2j.util.random.BedrockRandom;
 import fragrant.b2j.util.position.StructurePos;
 
 public abstract class StructureGenerator {
 
-    public record Feature(StructurePos position, BedrockRandom mt) { }
-
-    public static Feature getFeatureChunkInRegion(BedrockStructureConfig config, long worldSeed, int regX, int regZ) {
-        StructurePos pos;
-        BedrockRandom mt = null;
-
+    public static StructurePos getFeatureChunkInRegion(BedrockStructureConfig config, BedrockRandom mt, int regX, int regZ) {
         int x, z;
         int separation = config.getSeparation();
 
         if (config.getExtraInfo() == BedrockStructureConfig.linear) {
-            mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
             x = mt.nextInt(separation);
             z = mt.nextInt(separation);
-            pos = new StructurePos(x, z);
         } else if (config.getExtraInfo() == BedrockStructureConfig.triangular) {
-            mt = StructureGenerator.setRegionSeed(config, worldSeed, regX, regZ);
             x = (mt.nextInt(separation) + mt.nextInt(separation)) / 2;
             z = (mt.nextInt(separation) + mt.nextInt(separation)) / 2;
-            pos = new StructurePos(x, z);
         } else {
-            pos = new StructurePos(0, 0);
+            x = 0;
+            z = 0;
         }
 
-        return new Feature(pos, mt);
+        return new StructurePos(x, z);
     }
 
     public static StructurePos getFeaturePos(BedrockStructureConfig config, int regX, int regZ, StructurePos pos) {
@@ -73,15 +64,14 @@ public abstract class StructureGenerator {
         return (int) hash;
     }
 
-    public static long getSeedForChunk(int hash, int featureHash) {
-        long result = (hash >>> 2) + ((long) hash << 6) + featureHash - 1640531527;
-        return result ^ hash;
+    public static long bedrockfeatureseedgenerator_get_seed_for_chunk(int hash, int featureHash) {
+        return hash ^ ((long) hash << 6) + (hash >>> 2) + featureHash - 1640531527;
     }
 
     public static long getFeatureSeed(long worldSeed, int chunkX, int chunkZ, String featureName) {
         int featureHash = BedrockFeatureSeedGenerator(featureName);
         long popSeed = getBedrockPopulationSeed(worldSeed, chunkX, chunkZ);
-        return getSeedForChunk((int) popSeed, featureHash);
+        return bedrockfeatureseedgenerator_get_seed_for_chunk((int) popSeed, featureHash);
     }
 
     public static CPos getInRegion(long worldSeed, int regionX, int regionZ, int salt, int spacing, int separation, ChunkRand rand, MCVersion version) {
