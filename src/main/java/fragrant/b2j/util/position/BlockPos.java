@@ -1,8 +1,7 @@
 package fragrant.b2j.util.position;
 
-/**
- * Represents a position in the world at block level
- */
+import java.util.Objects;
+
 public class BlockPos {
     private final int x;
     private final int z;
@@ -46,8 +45,7 @@ public class BlockPos {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BlockPos blockPos = (BlockPos) o;
-        return x == blockPos.x && z == blockPos.z &&
-                (y == null ? blockPos.y == null : y.equals(blockPos.y));
+        return x == blockPos.x && z == blockPos.z && (Objects.equals(y, blockPos.y));
     }
 
     @Override
