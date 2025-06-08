@@ -15,7 +15,7 @@ public class StructurePiece<T extends StructurePiece<T>> {
 	protected BlockBox boundingBox;
 	protected Direction facing;
 
-	protected int applyXTransform(int x, int z) {
+	public int applyXTransform(int x, int z) {
 		if (this.facing == null) {
 			return x;
 		} else {
@@ -37,7 +37,7 @@ public class StructurePiece<T extends StructurePiece<T>> {
 		return this.getFacing() == null ? y : y + this.boundingBox.minY;
 	}
 
-	protected int applyZTransform(int x, int z) {
+	public int applyZTransform(int x, int z) {
 		if (this.facing == null) {
 			return z;
 		} else {

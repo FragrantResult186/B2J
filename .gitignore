@@ -31,3 +31,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+/src/test/java/fragrant/b2j/finder/EndCityShipFinderGUI.java
+/src/test/java/fragrant/b2j/finder/DiamondChest.java
+/src/test/java/fragrant/b2j/finder/seeds.txt

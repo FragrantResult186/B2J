@@ -10,28 +10,27 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.seedfinding.com' }
     maven { url 'https://repo.jellejurre.dev' }
+    maven { url 'https://mvn.3po.ch/maven' }
+    maven {
+        url "https://jogamp.org/deployment/maven"
+        allowInsecureProtocol = true
+    }
 }
 
 dependencies {
     implementation ('it.unimi.dsi:fastutil-core:8.5.13'){ transitive = false }
-    implementation 'com.google.code.gson:gson:2.10.1'
-
-    // FlatLaf for modern UI
-    implementation 'com.formdev:flatlaf:3.1.1'
-
-    implementation('com.seedfinding:mc_math:1.171.0'){ transitive = false }
-    implementation('com.seedfinding:mc_seed:1.171.1'){ transitive = false }
-    implementation('com.seedfinding:mc_core:1.200.0'){ transitive = false }
-    implementation('com.seedfinding:mc_noise:1.171.1'){ transitive = false }
-    implementation('com.seedfinding:mc_biome:1.171.1'){ transitive = false }
-    implementation('com.seedfinding:mc_feature:1.171.1'){ transitive = false }
-
-    implementation 'com.github.mjtb49:SeedUtils:512bf3878057493457d534071277d58426a67b5a'
+    implementation ('com.google.code.gson:gson:2.10.1'){ transitive = false }
+    implementation ('com.seedfinding:mc_math:1.171.0'){ transitive = false }
+    implementation ('com.seedfinding:mc_seed:1.171.1'){ transitive = false }
+    implementation ('com.seedfinding:mc_core:1.200.0'){ transitive = false }
+    implementation ('com.seedfinding:mc_noise:1.171.1'){ transitive = false }
+    implementation ('com.seedfinding:mc_biome:1.171.1'){ transitive = false }
+    implementation ('com.seedfinding:mc_feature:1.171.1'){ transitive = false }
+    implementation ('com.github.mjtb49:SeedUtils:512bf3878057493457d534071277d58426a67b5a'){ transitive = false }
     implementation ('com.github.KaptainWutax:BiomeUtils:69d9a7644e5477344379e451cdbdd036596ca88c'){ transitive = false }
-
-    implementation('com.github.KalleStruik:noise-sampler:1.20.0'){ transitive = false }
-    implementation files('libs/biomesampler-1.20.0.jar')
-
+    implementation ('de.rasmusantons.cubiomes:cubiomes-java:0.0.6'){ transitive = false }
+    implementation ('org.jogamp.gluegen:gluegen-rt-main:2.4.0'){ transitive = false }
+    implementation ('org.jogamp.jogl:jogl-all-main:2.4.0'){ transitive = false }
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

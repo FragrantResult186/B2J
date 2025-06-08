@@ -3,28 +3,32 @@ package fragrant.b2j.loot;
 import fragrant.b2j.feature.BedrockFeature;
 import fragrant.b2j.feature.BedrockFeatureType;
 import fragrant.b2j.feature.loot.LootType;
-import fragrant.b2j.feature.structure.BuriedTreasure;
+import fragrant.b2j.feature.structure.EndCity;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.FeaturePos;
 
 import java.util.List;
 import java.util.Map;
 
-public class BuriedTreasureLootExample {
+public class EndCityLootExample {
     public static void main(String[] args) {
-        long worldSeed = 1234567890987654321L;
-        int blockX = 136;
-        int blockZ = 136;
+        long worldSeed = 310857020810272344L;
+        int blockX = -8216;
+        int blockZ = -1240;
         int chunkX = blockX >> 4;
         int chunkZ = blockZ >> 4;
         int version = BedrockVersion.MC_1_21_8;
-        int structureType = BedrockFeatureType.BURIED_TREASURE;
+        int structureType = BedrockFeatureType.END_CITY;
 
         FeaturePos pos = BedrockFeature.isFeatureChunk(structureType, version, worldSeed, chunkX, chunkZ);
         if (pos == null) return;
-        Map<Integer, List<LootType.LootItem>> loot = BuriedTreasure.getLoot(worldSeed, pos);
 
-        loot.forEach((chestIndex, items) -> items.forEach(System.out::println));
+        Map<Integer, List<LootType.LootItem>> loot = EndCity.getShipLoot(worldSeed, pos);
+        if (loot.isEmpty()) return;
+
+        loot.forEach((chestIndex, items) -> {
+            System.out.printf("Chest%d\n", chestIndex + 1);
+            items.forEach(System.out::println);
+        });
     }
-
 }
