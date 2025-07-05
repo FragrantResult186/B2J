@@ -27,7 +27,7 @@ public abstract class BedrockFeatureGenerator {
         );
     }
 
-    public static int getDecorationSeed(long worldSeed, int chunkX, int chunkZ) {
+    public static int chunkGenerateRnd(long worldSeed, int chunkX, int chunkZ) {
         BedrockRandom mt = new BedrockRandom(worldSeed);
         int xMul = mt.nextInt() | 1;
         int zMul = mt.nextInt() | 1;

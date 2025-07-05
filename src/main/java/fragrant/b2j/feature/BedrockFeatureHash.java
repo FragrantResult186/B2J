@@ -24,13 +24,13 @@ public class BedrockFeatureHash {
     }
 
     public static int getFeatureSeed(long worldSeed, int chunkX, int chunkZ, String featureName) {
-        int seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
+        int seed = BedrockFeatureGenerator.chunkGenerateRnd(worldSeed, chunkX, chunkZ);
         int featureHash = getFeatureHash(featureName);
         return seed ^ (seed << 6) + (seed >>> 2) + featureHash - 1640531527;
     }
 
     public static int getFeatureSeed(long worldSeed, int chunkX, int chunkZ, int featureHash) {
-        int seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
+        int seed = BedrockFeatureGenerator.chunkGenerateRnd(worldSeed, chunkX, chunkZ);
         return seed ^ (seed << 6) + (seed >>> 2) + featureHash - 1640531527;
     }
 

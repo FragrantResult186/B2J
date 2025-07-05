@@ -29,9 +29,9 @@ public class Stronghold {
     public static FeaturePos getStaticStronghold(long worldSeed, int regX, int regZ) {
         int regX100 = gridSize * regX + 100;
         int regZ100 = gridSize * regZ + 100;
-        long xMul = 784295783249L * regX100;
-        long zMul = 827828252345L * regZ100;
-        long seed = xMul + zMul + worldSeed + 97858791L;
+        int xMul = -1683231919 * regX100;
+        int zMul = -1100435783 * regZ100;
+        long seed = xMul + zMul + worldSeed + 97858791;
         BedrockRandom mt = new BedrockRandom(seed);
 
         int minX = gridSize * regX + gridSize - gridSizeMinusMargin;
@@ -48,7 +48,7 @@ public class Stronghold {
         return null;
     }
 
-    public static BlockPos[] getVillageStrongholds(long worldSeed, int version) {
+    public static BlockPos[] getVillageStrongholds(long worldSeed, int version, boolean skipBiomeCheck) {
         BlockPos[] pos = new BlockPos[villageStrongholdCount];
         BedrockRandom mt = new BedrockRandom(worldSeed);
 
@@ -63,17 +63,21 @@ public class Stronghold {
             boolean found = false;
             for (int x = cx - 8; x < cx + 8 && !found; x++) {
                 for (int z = cz - 8; z < cz + 8 && !found; z++) {
-                    if (BedrockFeature.isFeatureChunk(BedrockFeatureType.VILLAGE, version, worldSeed, x, z) != null) {
-                        int blockX = x << 4, blockZ = z << 4;
-                        Biome bedrockBiome = Biome.getBiomeCache(worldSeed, version);
-                        BiomeID biome = bedrockBiome.getBiomeAt(blockX, 64, blockZ, Dimension.DIM_OVERWORLD);
-                        if (version >= BedrockVersion.MC_1_18) {
-                            if (Biome.VILLAGE_BIOMES_1_18.contains(biome)) {
-                                pos[cnt++] = new BlockPos(blockX, blockZ);
-                                found = true;
-                            }
+                    if (BedrockFeature.isFeatureChunk(BedrockFeatureType.VILLAGE, version, worldSeed, x, z, skipBiomeCheck) != null) {
+                        int blockX = x << 4;
+                        int blockZ = z << 4;
+
+                        if (skipBiomeCheck) {
+                            pos[cnt++] = new BlockPos(blockX, blockZ);
+                            found = true;
                         } else {
-                            if (Biome.VILLAGE_BIOMES_1_14.contains(biome)) {
+                            Biome bedrockBiome = Biome.getBiomeCache(worldSeed, version);
+                            BiomeID biome = bedrockBiome.getBiomeAt(blockX, 64, blockZ, Dimension.DIM_OVERWORLD);
+                            Set<BiomeID> validBiomes = version >= BedrockVersion.MC_1_18
+                                    ? Biome.VILLAGE_BIOMES_1_18
+                                    : Biome.VILLAGE_BIOMES_1_14;
+
+                            if (validBiomes.contains(biome)) {
                                 pos[cnt++] = new BlockPos(blockX, blockZ);
                                 found = true;
                             }
@@ -158,7 +162,7 @@ public class Stronghold {
 
         Box chunkBox = new Box(chunkX << 4, 0, chunkZ << 4, (chunkX << 4) + 15, 128, (chunkZ << 4) + 15);
 
-        long seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
+        long seed = BedrockFeatureGenerator.chunkGenerateRnd(worldSeed, chunkX, chunkZ);
         BedrockRandom mt = new BedrockRandom(seed);
 
         for (StructurePiece<?> piece : allPieces) {

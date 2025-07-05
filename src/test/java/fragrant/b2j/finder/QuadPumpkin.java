@@ -35,7 +35,8 @@ public class QuadPumpkin {
                         version,
                         seed,
                         chunkX,
-                        chunkZ
+                        chunkZ,
+                        true
                 );
 
                 if (pumpkinPos == null) {
@@ -55,7 +56,8 @@ public class QuadPumpkin {
                             version,
                             seed,
                             chunkX,
-                            chunkZ
+                            chunkZ,
+                            true
                     );
                     System.out.printf("%s\n", pumpkinPos);
                 }

@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Example1 {
-    static int MAX = 100;
+    static int MAX = 1000;
 
     public static void main(String[] args) {
 
-        test(1111111111111111111L, -35, -733, 200, BedrockVersion.MC_1_21_8, false);
+        test(93376L, 0, 0, 100, BedrockVersion.MC_1_21_8, true);
 
     }
 
@@ -25,33 +25,33 @@ public class Example1 {
         List<Integer> featureTypes = Arrays.asList(
                 BedrockFeatureType.ANCIENT_CITY,
                 BedrockFeatureType.DESERT_PYRAMID,
-                BedrockFeatureType.IGLOO,
-                BedrockFeatureType.JUNGLE_TEMPLE,
-                BedrockFeatureType.SWAMP_HUT,
+//                BedrockFeatureType.IGLOO,
+//                BedrockFeatureType.JUNGLE_TEMPLE,
+//                BedrockFeatureType.SWAMP_HUT,
                 BedrockFeatureType.WOODLAND_MANSION,
                 BedrockFeatureType.OCEAN_MONUMENT,
-                BedrockFeatureType.OCEAN_RUINS,
+//                BedrockFeatureType.OCEAN_RUINS,
                 BedrockFeatureType.PILLAGER_OUTPOST,
-                BedrockFeatureType.SHIPWRECK,
-                BedrockFeatureType.MINESHAFT,
-                BedrockFeatureType.TRAIL_RUINS,
-                BedrockFeatureType.TRIAL_CHAMBERS,
+//                BedrockFeatureType.SHIPWRECK,
+//                BedrockFeatureType.MINESHAFT,
+//                BedrockFeatureType.TRAIL_RUINS,
+//                BedrockFeatureType.TRIAL_CHAMBERS,
                 BedrockFeatureType.VILLAGE,
-                BedrockFeatureType.BURIED_TREASURE,
-                BedrockFeatureType.BASTION_REMNANT,
-                BedrockFeatureType.VILLAGE_STRONGHOLD,
-                BedrockFeatureType.STATIC_STRONGHOLD,
-                BedrockFeatureType.NETHER_FORTRESS,
-                BedrockFeatureType.RUINED_PORTAL_O,
-                BedrockFeatureType.RUINED_PORTAL_N,
-                BedrockFeatureType.END_CITY,
-                BedrockFeatureType.AMETHYST_GEODE,
-                BedrockFeatureType.DESERT_WELL,
-                BedrockFeatureType.FOSSIL_O,
-                BedrockFeatureType.FOSSIL_N,
-                BedrockFeatureType.PUMPKIN,
-                BedrockFeatureType.RAVINE,
-                BedrockFeatureType.SWEET_BERRY
+//                BedrockFeatureType.BURIED_TREASURE,
+//                BedrockFeatureType.BASTION_REMNANT,
+//                BedrockFeatureType.VILLAGE_STRONGHOLD,
+//                BedrockFeatureType.STATIC_STRONGHOLD,
+//                BedrockFeatureType.NETHER_FORTRESS,
+                BedrockFeatureType.RUINED_PORTAL_O
+//                BedrockFeatureType.RUINED_PORTAL_N,
+//                BedrockFeatureType.END_CITY,
+//                BedrockFeatureType.AMETHYST_GEODE,
+//                BedrockFeatureType.DESERT_WELL,
+//                BedrockFeatureType.FOSSIL_O,
+//                BedrockFeatureType.FOSSIL_N,
+//                BedrockFeatureType.PUMPKIN,
+//                BedrockFeatureType.RAVINE,
+//                BedrockFeatureType.SWEET_BERRY
         );
 
         try {

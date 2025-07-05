@@ -1,5 +1,6 @@
 package fragrant.b2j.finder;
 
+import fragrant.b2j.feature.BedrockFeature;
 import fragrant.b2j.feature.BedrockFeatureConfig;
 import fragrant.b2j.feature.BedrockFeatureType;
 import fragrant.b2j.feature.structure.RuinedPortal;
@@ -18,7 +19,7 @@ public class UndergroundGiantRP {
         long seed = 0;
         int fnd = 0;
         while (fnd < 100) {
-            if (checkSeed(seed, chunkX, chunkZ, version)) {
+            if (check(seed, chunkX, chunkZ, version)) {
                 fnd++;
                 System.out.printf("%d%n", seed);
             }
@@ -27,23 +28,14 @@ public class UndergroundGiantRP {
         }
     }
 
-    private static boolean checkSeed(long worldSeed, int chunkX, int chunkZ, int version) {
-        try {
-            BedrockFeatureConfig c = BedrockFeatureConfig.getForType(BedrockFeatureType.RUINED_PORTAL_O, version);
-            if (c == null) return false;
-            int regionSize = c.getSpacing();
-            int regX = Math.floorDiv(chunkX, regionSize);
-            int regZ = Math.floorDiv(chunkZ, regionSize);
-            FeaturePos p = RuinedPortal.getOverworldRuinedPortal(c, (int) worldSeed, regX, regZ);
-            int portalChunkX = p.getX() >> 4;
-            int portalChunkZ = p.getZ() >> 4;
-            if (portalChunkX != chunkX || portalChunkZ != chunkZ) return false;
-            Boolean isGiant = p.getMeta("giant", Boolean.class);
-            Boolean isUnderground = p.getMeta("underground", Boolean.class);
-            return isGiant != null && isGiant && isUnderground != null && isUnderground;
-        } catch (Exception e) {
-            return false;
-        }
+    private static boolean check(long worldSeed, int chunkX, int chunkZ, int version) {
+        FeaturePos rp = BedrockFeature.isFeatureChunk(BedrockFeatureType.RUINED_PORTAL_O, version, worldSeed, chunkX, chunkZ, true);
+        if (rp == null) return false;
+        return rp.getMeta("giant", Boolean.class) &&
+               rp.getMeta("underground", Boolean.class) &&
+               rp.getMeta("variant", Integer.class) == 3 &&
+               !rp.getMeta("mirror", Boolean.class) &&
+               rp.getMeta("rotation", Integer.class) == 1;
     }
 
 }

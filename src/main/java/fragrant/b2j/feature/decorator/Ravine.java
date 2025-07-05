@@ -8,7 +8,7 @@ import fragrant.b2j.util.position.FeaturePos;
 public class Ravine extends BedrockFeatureGenerator {
 
     public static FeaturePos getRavine(long worldSeed, int chunkX, int chunkZ, int version) {
-        long seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
+        long seed = BedrockFeatureGenerator.chunkGenerateRnd(worldSeed, chunkX, chunkZ);
         BedrockRandom mt = new BedrockRandom(seed);
 
         /* 1.21.60+ 1/100 chance, older versions 1/150 chance */

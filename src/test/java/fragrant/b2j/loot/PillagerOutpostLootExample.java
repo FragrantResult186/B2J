@@ -20,7 +20,7 @@ public class PillagerOutpostLootExample {
         int version = BedrockVersion.MC_1_21_8;
         int structureType = BedrockFeatureType.PILLAGER_OUTPOST;
 
-        FeaturePos pos = BedrockFeature.isFeatureChunk(structureType, version, worldSeed, chunkX, chunkZ);
+        FeaturePos pos = BedrockFeature.isFeatureChunk(structureType, version, worldSeed, chunkX, chunkZ, false);
         if (pos == null) return;
         Map<Integer, List<LootType.LootItem>> loot = PillagerOutpost.getLoot(worldSeed, pos);
 

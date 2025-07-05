@@ -18,7 +18,7 @@ public class LootSeedGenerator implements Loot.LootSeedGenerator {
 
     @Override
     public List<Integer> generateChestSeed(long worldSeed, int chunkX, int chunkZ) {
-        long seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
+        long seed = BedrockFeatureGenerator.chunkGenerateRnd(worldSeed, chunkX, chunkZ);
         BedrockRandom mt = new BedrockRandom(seed);
 
         mt.skipNextInt(skipCount);

@@ -60,9 +60,9 @@ public class BedrockFeature {
         return null;
     }
 
-    public static FeaturePos isFeatureChunk(int structureType, int version, long worldSeed, int chunkX, int chunkZ) {
+    public static FeaturePos isFeatureChunk(int structureType, int version, long worldSeed, int chunkX, int chunkZ, boolean skipBiomeCheck) {
         if (structureType == BedrockFeatureType.VILLAGE_STRONGHOLD) {
-            return findVillageStrongholdAt(worldSeed, version, chunkX, chunkZ);
+            return findVillageStrongholdAt(worldSeed, version, chunkX, chunkZ, skipBiomeCheck);
         }
 
         BedrockFeatureConfig config = BedrockFeatureConfig.getForType(structureType, version);
@@ -101,14 +101,14 @@ public class BedrockFeature {
                                            SearchArea area, Biome biome, boolean skipBiomeCheck,
                                            List<FeaturePos> results) {
         switch (featureType) {
-            case BedrockFeatureType.VILLAGE_STRONGHOLD -> findVillageStronghold(worldSeed, version, area, results);
+            case BedrockFeatureType.VILLAGE_STRONGHOLD -> findVillageStronghold(worldSeed, version, area, results, skipBiomeCheck);
             case BedrockFeatureType.STATIC_STRONGHOLD -> findStaticStronghold(worldSeed, area, results);
             default -> findStructure(featureType, version, worldSeed, area, biome, skipBiomeCheck, results);
         }
     }
 
-    private static void findVillageStronghold(long worldSeed, int version, SearchArea area, List<FeaturePos> results) {
-        BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version);
+    private static void findVillageStronghold(long worldSeed, int version, SearchArea area, List<FeaturePos> results, boolean skipBiomeCheck) {
+        BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version, skipBiomeCheck);
         for (BlockPos pos : strongholds) {
             if (area.isWithinRadius(pos.getX(), pos.getZ())) {
                 FeaturePos structurePos = new FeaturePos(pos.getX(), pos.getZ());
@@ -165,8 +165,8 @@ public class BedrockFeature {
         }
     }
 
-    private static FeaturePos findVillageStrongholdAt(long worldSeed, int version, int chunkX, int chunkZ) {
-        BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version);
+    private static FeaturePos findVillageStrongholdAt(long worldSeed, int version, int chunkX, int chunkZ, boolean skipBiomeCheck) {
+        BlockPos[] strongholds = Stronghold.getVillageStrongholds(worldSeed, version, skipBiomeCheck);
         for (BlockPos stronghold : strongholds) {
             if (isAtChunk(stronghold, chunkX, chunkZ)) {
                 FeaturePos structurePos = new FeaturePos(stronghold.getX(), stronghold.getZ());

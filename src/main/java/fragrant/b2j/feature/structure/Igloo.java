@@ -25,8 +25,9 @@ public class Igloo extends BedrockFeatureGenerator {
         int chunkX = blockPos.getX() >> 4;
         int chunkZ = blockPos.getZ() >> 4;
 
-        long seed = BedrockFeatureGenerator.getDecorationSeed(worldSeed, chunkX, chunkZ);
-        mt = new BedrockRandom(seed);
+
+        long seed = chunkGenerateRnd(worldSeed, chunkX, chunkZ);
+        mt.setSeed(seed);
 
         int rotation = mt.nextInt(4);
         /* 50% chance */

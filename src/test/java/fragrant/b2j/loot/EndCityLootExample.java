@@ -20,7 +20,7 @@ public class EndCityLootExample {
         int version = BedrockVersion.MC_1_21_8;
         int structureType = BedrockFeatureType.END_CITY;
 
-        FeaturePos pos = BedrockFeature.isFeatureChunk(structureType, version, worldSeed, chunkX, chunkZ);
+        FeaturePos pos = BedrockFeature.isFeatureChunk(structureType, version, worldSeed, chunkX, chunkZ, true);
         if (pos == null) return;
 
         Map<Integer, List<LootType.LootItem>> loot = EndCity.getShipLoot(worldSeed, pos);
