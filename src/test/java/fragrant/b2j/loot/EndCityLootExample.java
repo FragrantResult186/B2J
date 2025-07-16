@@ -1,9 +1,8 @@
 package fragrant.b2j.loot;
 
-import fragrant.b2j.feature.BedrockFeature;
-import fragrant.b2j.feature.BedrockFeatureType;
-import fragrant.b2j.feature.loot.LootType;
-import fragrant.b2j.feature.structure.EndCity;
+import fragrant.b2j.worldfeature.BedrockFeature;
+import fragrant.b2j.worldfeature.BedrockFeatureType;
+import fragrant.b2j.worldfeature.structure.end.EndCity;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.FeaturePos;
 

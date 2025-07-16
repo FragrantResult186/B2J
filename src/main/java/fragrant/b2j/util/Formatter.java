@@ -1,10 +1,25 @@
 package fragrant.b2j.util;
 
-import fragrant.b2j.feature.BedrockFeatureType;
-import fragrant.b2j.feature.decorator.*;
-import fragrant.b2j.feature.decorator.NetherFossil;
-import fragrant.b2j.feature.structure.*;
+import fragrant.b2j.worldfeature.BedrockFeatureType;
+import fragrant.b2j.worldfeature.carver.overworld.Ravine;
+import fragrant.b2j.worldfeature.feature.nether.NetherFossil;
 import fragrant.b2j.util.position.FeaturePos;
+import fragrant.b2j.worldfeature.feature.end.EndIsland;
+import fragrant.b2j.worldfeature.feature.overworld.surface.DesertWell;
+import fragrant.b2j.worldfeature.feature.overworld.surface.LavaLake;
+import fragrant.b2j.worldfeature.feature.overworld.underground.AmethystGeode;
+import fragrant.b2j.worldfeature.feature.overworld.underground.OverworldFossil;
+import fragrant.b2j.worldfeature.feature.overworld.vegetation.Pumpkin;
+import fragrant.b2j.worldfeature.feature.overworld.vegetation.SweetBerry;
+import fragrant.b2j.worldfeature.structure.RuinedPortal;
+import fragrant.b2j.worldfeature.structure.end.EndCity;
+import fragrant.b2j.worldfeature.structure.nether.Bastion;
+import fragrant.b2j.worldfeature.structure.nether.Fortress;
+import fragrant.b2j.worldfeature.structure.overworld.surface.*;
+import fragrant.b2j.worldfeature.structure.overworld.underground.*;
+import fragrant.b2j.worldfeature.structure.overworld.underwater.OceanMonument;
+import fragrant.b2j.worldfeature.structure.overworld.underwater.OceanRuins;
+import fragrant.b2j.worldfeature.structure.overworld.underwater.Shipwreck;
 
 public class Formatter {
 
@@ -45,8 +60,10 @@ public class Formatter {
             // Features
             case BedrockFeatureType.AMETHYST_GEODE     -> AmethystGeode.format(pos);
             case BedrockFeatureType.DESERT_WELL        -> DesertWell.format(pos);
+            case BedrockFeatureType.END_ISLAND         -> EndIsland.format(pos);
             case BedrockFeatureType.FOSSIL_N           -> NetherFossil.format(pos);
             case BedrockFeatureType.FOSSIL_O           -> OverworldFossil.format(pos);
+            case BedrockFeatureType.LAVA_LAKE          -> LavaLake.format(pos);
             case BedrockFeatureType.PUMPKIN            -> Pumpkin.format(pos);
             case BedrockFeatureType.RAVINE             -> Ravine.format(pos);
             case BedrockFeatureType.SWEET_BERRY        -> SweetBerry.format(pos);

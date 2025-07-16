@@ -1,9 +1,7 @@
 package fragrant.b2j.finder;
 
-import fragrant.b2j.feature.BedrockFeature;
-import fragrant.b2j.feature.BedrockFeatureConfig;
-import fragrant.b2j.feature.BedrockFeatureType;
-import fragrant.b2j.feature.structure.RuinedPortal;
+import fragrant.b2j.worldfeature.BedrockFeature;
+import fragrant.b2j.worldfeature.BedrockFeatureType;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.FeaturePos;
 

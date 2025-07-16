@@ -1,6 +1,7 @@
 package fragrant.b2j.biome;
 
-import fragrant.b2j.feature.BedrockFeatureType;
+import fragrant.b2j.terrain.nether.NetherUtil;
+import fragrant.b2j.worldfeature.BedrockFeatureType;
 import fragrant.b2j.util.BedrockVersion;
 import de.rasmusantons.cubiomes.*;
 
@@ -57,12 +58,26 @@ public class Biome {
             BiomeID.tall_birch_forest, BiomeID.jungle);
     public static final Set<BiomeID> FOSSIL_BIOMES = EnumSet.of(BiomeID.desert, BiomeID.swamp);
     public static final Set<BiomeID> FOSSIL_N_BIOMES = EnumSet.of(BiomeID.soul_sand_valley);
-    public static final Set<BiomeID> PUMPKIN_BIOMES = EnumSet.of(
+    public static final Set<BiomeID> PUMPKIN_RESTRICTED_BIOMES = EnumSet.of(
             BiomeID.ocean, BiomeID.deep_ocean, BiomeID.cold_ocean, BiomeID.deep_cold_ocean,
             BiomeID.frozen_ocean, BiomeID.deep_frozen_ocean, BiomeID.lukewarm_ocean,
             BiomeID.deep_lukewarm_ocean, BiomeID.warm_ocean, BiomeID.river, BiomeID.frozen_river,
-            BiomeID.desert, BiomeID.badlands
-    );
+            BiomeID.desert, BiomeID.badlands);
+    public static final Set<BiomeID> LAVA_LAKE_RESTRICTED_BIOMES = EnumSet.of(
+            BiomeID.ocean, BiomeID.deep_ocean, BiomeID.cold_ocean, BiomeID.deep_cold_ocean,
+            BiomeID.frozen_ocean, BiomeID.deep_frozen_ocean, BiomeID.lukewarm_ocean,
+            BiomeID.deep_lukewarm_ocean, BiomeID.warm_ocean, BiomeID.river, BiomeID.frozen_river);
+    public static final Set<BiomeID> BASTION_BIOMES = EnumSet.of(
+            BiomeID.nether_wastes, BiomeID.soul_sand_valley,
+            BiomeID.crimson_forest, BiomeID.warped_forest);
+    private static final Map<Integer, BiomeID> NETHER_BIOME_MAP = new HashMap<>();
+    static {
+        NETHER_BIOME_MAP.put(8, BiomeID.nether_wastes);
+        NETHER_BIOME_MAP.put(178, BiomeID.soul_sand_valley);
+        NETHER_BIOME_MAP.put(179, BiomeID.crimson_forest);
+        NETHER_BIOME_MAP.put(180, BiomeID.warped_forest);
+        NETHER_BIOME_MAP.put(181, BiomeID.basalt_deltas);
+    }
 
     private Biome(long worldSeed, int mcVersion) {
         this.worldSeed = worldSeed;
@@ -112,25 +127,28 @@ public class Biome {
         return biome;
     }
 
-    public boolean isViableFeaturePos(int structureType, int blockX, int blockZ) {
+    public boolean isViableFeaturePos(long worldSeed, int structureType, int blockX, int blockZ) {
         return switch (structureType) {
             case BedrockFeatureType.ANCIENT_CITY -> checkBiome(blockX, -51, blockZ, DEEP_DARK_BIOME);
+            case BedrockFeatureType.BASTION_REMNANT -> checkBiomeNether(worldSeed, blockX, blockZ, BASTION_BIOMES);
             case BedrockFeatureType.BURIED_TREASURE -> checkBiome(blockX, 60, blockZ, BURIED_TREASURE_BIOMES);
             case BedrockFeatureType.DESERT_PYRAMID -> checkBiome(blockX, 256, blockZ, DESERT_PYRAMID_BIOME);
+            case BedrockFeatureType.DESERT_WELL -> checkBiome(blockX, 128, blockZ, DESERT_PYRAMID_BIOME);
+            case BedrockFeatureType.FOSSIL_O -> checkBiome(blockX, 256, blockZ, FOSSIL_BIOMES);
+            case BedrockFeatureType.FOSSIL_N -> checkBiomeNether(worldSeed, blockX, blockZ, FOSSIL_N_BIOMES);
             case BedrockFeatureType.IGLOO -> checkBiome(blockX, 256, blockZ, getIglooBiomes());
             case BedrockFeatureType.JUNGLE_TEMPLE -> checkBiome(blockX, 256, blockZ, JUNGLE_TEMPLE_BIOMES);
+            case BedrockFeatureType.LAVA_LAKE -> !checkBiome(blockX, 60, blockZ, LAVA_LAKE_RESTRICTED_BIOMES);
             case BedrockFeatureType.OCEAN_MONUMENT -> checkBiome(blockX, 60, blockZ, OCEAN_MONUMENT_BIOMES);
             case BedrockFeatureType.OCEAN_RUINS -> checkBiome(blockX, 60, blockZ, OCEANIC_BIOMES);
             case BedrockFeatureType.PILLAGER_OUTPOST -> checkBiome(blockX, 256, blockZ, getOutpostBiomes());
-            case BedrockFeatureType.PUMPKIN -> !checkBiome(blockX, 256, blockZ, PUMPKIN_BIOMES);
+            case BedrockFeatureType.PUMPKIN -> !checkBiome(blockX, 256, blockZ, PUMPKIN_RESTRICTED_BIOMES);
             case BedrockFeatureType.SHIPWRECK -> checkBiome(blockX, 64, blockZ, OCEANIC_BIOMES);
             case BedrockFeatureType.SWAMP_HUT -> checkBiome(blockX, 256, blockZ, WITCH_HUT_BIOMES);
             case BedrockFeatureType.TRAIL_RUINS -> checkBiome(blockX, 64, blockZ, TRAIL_RUINS_BIOMES);
             case BedrockFeatureType.TRIAL_CHAMBERS -> !checkBiome(blockX, 20, blockZ, DEEP_DARK_BIOME);
             case BedrockFeatureType.VILLAGE -> checkBiome(blockX, 256, blockZ, getVillageBiomes());
             case BedrockFeatureType.WOODLAND_MANSION -> checkBiome(blockX, 256, blockZ, WOODLAND_MANSION_BIOMES);
-            case BedrockFeatureType.DESERT_WELL -> checkBiome(blockX, 128, blockZ, DESERT_PYRAMID_BIOME);
-            case BedrockFeatureType.FOSSIL_O -> checkBiome(blockX, 256, blockZ, FOSSIL_BIOMES);
             default -> true;
         };
     }
@@ -170,6 +188,12 @@ public class Biome {
         return validBiomes.contains(biome);
     }
 
+    private boolean checkBiomeNether(long worldSeed, int blockX, int blockZ, Set<BiomeID> validBiomes) {
+        int biomeId = NetherUtil.getBiome(worldSeed, blockX, blockZ);
+        BiomeID biome = NETHER_BIOME_MAP.getOrDefault(biomeId, BiomeID.none);
+        return validBiomes.contains(biome);
+    }
+
     public void clearCache() {
         biomeCache.clear();
     }
@@ -181,5 +205,4 @@ public class Biome {
     public int getMcVersion() {
         return mcVersion;
     }
-
 }

@@ -105,4 +105,9 @@ public class FeaturePos {
         return format();
     }
 
+    public double distXZ(FeaturePos other) {
+        int dx = this.getX() - other.getX();
+        int dz = this.getZ() - other.getZ();
+        return Math.sqrt(dx * dx + dz * dz);
+    }
 }

@@ -1,6 +1,6 @@
 package fragrant.b2j.finder;
 
-import fragrant.b2j.feature.structure.Stronghold;
+import fragrant.b2j.worldfeature.structure.overworld.underground.Stronghold;
 import fragrant.b2j.util.position.BlockPos;
 import fragrant.b2j.util.position.FeaturePos;
 

@@ -1,8 +1,8 @@
 package fragrant.b2j;
 
-import fragrant.b2j.feature.BedrockFeatureConfig;
-import fragrant.b2j.feature.BedrockFeature;
-import fragrant.b2j.feature.BedrockFeatureType;
+import fragrant.b2j.worldfeature.BedrockFeatureConfig;
+import fragrant.b2j.worldfeature.BedrockFeature;
+import fragrant.b2j.worldfeature.BedrockFeatureType;
 import fragrant.b2j.util.BedrockVersion;
 import fragrant.b2j.util.position.FeaturePos;
 
@@ -16,42 +16,44 @@ public class Example1 {
 
     public static void main(String[] args) {
 
-        test(93376L, 0, 0, 100, BedrockVersion.MC_1_21_8, true);
+        test(1234567890L, 0>>4, 0>>4, 100, BedrockVersion.MC_1_21, false);
 
     }
 
     private static void test(long worldSeed, int centerChunkX, int centerChunkZ, int radiusChunk, int version, boolean skipBiomeCheck) {
         System.out.println("\u001b[34m" + "MC version: " + version + "\u001b[0m");
         List<Integer> featureTypes = Arrays.asList(
-                BedrockFeatureType.ANCIENT_CITY,
-                BedrockFeatureType.DESERT_PYRAMID,
+//                BedrockFeatureType.ANCIENT_CITY,
+//                BedrockFeatureType.DESERT_PYRAMID
 //                BedrockFeatureType.IGLOO,
 //                BedrockFeatureType.JUNGLE_TEMPLE,
 //                BedrockFeatureType.SWAMP_HUT,
-                BedrockFeatureType.WOODLAND_MANSION,
-                BedrockFeatureType.OCEAN_MONUMENT,
+//                BedrockFeatureType.WOODLAND_MANSION,
+//                BedrockFeatureType.OCEAN_MONUMENT,
 //                BedrockFeatureType.OCEAN_RUINS,
-                BedrockFeatureType.PILLAGER_OUTPOST,
+//                BedrockFeatureType.PILLAGER_OUTPOST,
 //                BedrockFeatureType.SHIPWRECK,
 //                BedrockFeatureType.MINESHAFT,
 //                BedrockFeatureType.TRAIL_RUINS,
 //                BedrockFeatureType.TRIAL_CHAMBERS,
-                BedrockFeatureType.VILLAGE,
+//                BedrockFeatureType.VILLAGE
 //                BedrockFeatureType.BURIED_TREASURE,
-//                BedrockFeatureType.BASTION_REMNANT,
+                BedrockFeatureType.BASTION_REMNANT,
 //                BedrockFeatureType.VILLAGE_STRONGHOLD,
 //                BedrockFeatureType.STATIC_STRONGHOLD,
 //                BedrockFeatureType.NETHER_FORTRESS,
-                BedrockFeatureType.RUINED_PORTAL_O
+//                BedrockFeatureType.RUINED_PORTAL_O
 //                BedrockFeatureType.RUINED_PORTAL_N,
 //                BedrockFeatureType.END_CITY,
 //                BedrockFeatureType.AMETHYST_GEODE,
 //                BedrockFeatureType.DESERT_WELL,
 //                BedrockFeatureType.FOSSIL_O,
-//                BedrockFeatureType.FOSSIL_N,
+                BedrockFeatureType.FOSSIL_N
 //                BedrockFeatureType.PUMPKIN,
 //                BedrockFeatureType.RAVINE,
-//                BedrockFeatureType.SWEET_BERRY
+//                BedrockFeatureType.SWEET_BERRY,
+//                BedrockFeatureType.LAVA_LAKE
+//                BedrockFeatureType.END_ISLAND
         );
 
         try {

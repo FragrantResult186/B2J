@@ -1,6 +1,6 @@
 package fragrant.b2j.finder;
 
-import fragrant.b2j.feature.BedrockFeatureHash;
+import fragrant.b2j.worldfeature.BedrockFeatureHash;
 
 public class FeatureHash {
     public static void main(String[] args) {
