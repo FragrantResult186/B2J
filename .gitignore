@@ -1,8 +1,8 @@
+### Gradle ###
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
-!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 /.idea/
@@ -17,7 +17,6 @@ build/
 .sts4-cache
 bin/
 !**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,6 +31,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-/src/test/java/fragrant/b2j/finder/EndCityShipFinderGUI.java
-/src/test/java/fragrant/b2j/finder/DiamondChest.java
-/src/test/java/fragrant/b2j/finder/seeds.txt
+### Tests (exclude) ###
+/src/test/

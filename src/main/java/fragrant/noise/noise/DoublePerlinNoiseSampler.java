@@ -1,0 +1,53 @@
+package fragrant.noise.noise;
+
+import fragrant.noise.perlin.OctavePerlinNoiseSampler;
+import fragrant.core.util.data.Pair;
+import fragrant.core.rand.BedrockRandom;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class DoublePerlinNoiseSampler {
+    private final double amplitude;
+    private final OctavePerlinNoiseSampler firstSampler;
+    private final OctavePerlinNoiseSampler secondSampler;
+
+    public DoublePerlinNoiseSampler(BedrockRandom rand, IntStream octaves) {
+        this(rand, octaves.boxed().collect(Collectors.toList()));
+    }
+
+    public DoublePerlinNoiseSampler(BedrockRandom rand, List<Integer> octaves) {
+        int minOctave = octaves.stream().min(Integer::compareTo).orElse(0);
+        int maxOctave = octaves.stream().max(Integer::compareTo).orElse(0);
+        int length = maxOctave - minOctave + 1;
+        this.amplitude = (10.0 / 6.0) * (length + 1) / (length + 2);
+        this.firstSampler = new OctavePerlinNoiseSampler(rand, octaves);
+        this.secondSampler = new OctavePerlinNoiseSampler(rand, octaves);
+    }
+
+    public DoublePerlinNoiseSampler(BedrockRandom rand, Pair<Integer, List<Double>> octavesParams) {
+        this.firstSampler = new OctavePerlinNoiseSampler(rand, octavesParams);
+        this.secondSampler = new OctavePerlinNoiseSampler(rand, octavesParams);
+        int minNbOctaves = Integer.MAX_VALUE;
+        int maxNbOctaves = Integer.MIN_VALUE;
+        for(int idx = 0; idx < octavesParams.getSecond().size(); idx++) {
+            double d0 = octavesParams.getSecond().get(idx);
+            if(d0 != 0.0D) {
+                minNbOctaves = Math.min(minNbOctaves, idx);
+                maxNbOctaves = Math.max(maxNbOctaves, idx);
+            }
+        }
+        this.amplitude = 0.16666666666666666D / createAmplitude(maxNbOctaves - minNbOctaves);
+    }
+
+    private static double createAmplitude(int octaves) {
+        return 0.1D * (1.0D + 1.0D / (double)(octaves + 1));
+    }
+
+    public double sample(double x, double y, double z) {
+        double f = 337.0 / 331.0;  // 1.0181268882175227D
+        return (this.firstSampler.sample(x, y, z) +
+                this.secondSampler.sample(x * f, y * f, z * f)) * this.amplitude;
+    }
+}
